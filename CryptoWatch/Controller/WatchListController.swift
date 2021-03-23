@@ -44,6 +44,7 @@ class WatchListController: UIViewController {
         table.allowsSelectionDuringEditing = true
         table.delegate = self
         table.dataSource = self
+        table.backgroundColor = .clear
         table.register(CoinTableViewCell.self, forCellReuseIdentifier: Constants.coinTableViewCellIdentifier)
         return table
     }()
@@ -158,8 +159,11 @@ extension WatchListController: NSFetchedResultsControllerDelegate {
 
 extension WatchListController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let coin = fetchedResultsController.object(at: indexPath)
+        let coin = fetchedResultsController.object(at: indexPath)
         // modal/popup/whatever
+        let vc = CoinController()
+        vc.coin = coin
+        self.present(vc, animated: true, completion: nil)
     }
 }
 

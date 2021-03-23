@@ -10,6 +10,8 @@
 		1CADE23D2C05ADB8B7E4C1D0 /* Pods_CryptoWatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B91AC94306AE4D6580AB33E /* Pods_CryptoWatch.framework */; };
 		FE2F69472608258300F85B20 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2F69462608258300F85B20 /* CoreDataStack.swift */; };
 		FE2F69512608307800F85B20 /* CoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2F69502608307800F85B20 /* CoinTableViewCell.swift */; };
+		FE7119912609D98E00DEDDC1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE7119902609D98E00DEDDC1 /* GoogleService-Info.plist */; };
+		FE7119952609E87300DEDDC1 /* CoinController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7119942609E87300DEDDC1 /* CoinController.swift */; };
 		FE89A58C2604645400440076 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE89A58B2604645400440076 /* Coin.swift */; };
 		FE89A58F26046A7700440076 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE89A58E26046A7700440076 /* Response.swift */; };
 		FE89A59226046A9200440076 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE89A59126046A9200440076 /* NetworkError.swift */; };
@@ -26,7 +28,7 @@
 		FEC6FF892603116100E28D57 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6FF882603116100E28D57 /* AppCoordinator.swift */; };
 		FEC6FF912603132500E28D57 /* OnboardingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6FF902603132500E28D57 /* OnboardingController.swift */; };
 		FEC6FF98260326CD00E28D57 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6FF97260326CD00E28D57 /* UIColor+Extensions.swift */; };
-		FEC6FFA226032D6200E28D57 /* CoinController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6FFA126032D6200E28D57 /* CoinController.swift */; };
+		FEC6FFA226032D6200E28D57 /* CoinCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6FFA126032D6200E28D57 /* CoinCollectionController.swift */; };
 		FEC6FFA526032D7600E28D57 /* WatchListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6FFA426032D7600E28D57 /* WatchListController.swift */; };
 		FEC6FFA826032E1200E28D57 /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6FFA726032E1200E28D57 /* TabBarCoordinator.swift */; };
 		FEC6FFAB26032ED800E28D57 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6FFAA26032ED800E28D57 /* TabBarController.swift */; };
@@ -39,6 +41,8 @@
 		E9756E4B7DD9C6CBE35D0E91 /* Pods-CryptoWatch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoWatch.release.xcconfig"; path = "Target Support Files/Pods-CryptoWatch/Pods-CryptoWatch.release.xcconfig"; sourceTree = "<group>"; };
 		FE2F69462608258300F85B20 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		FE2F69502608307800F85B20 /* CoinTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinTableViewCell.swift; sourceTree = "<group>"; };
+		FE7119902609D98E00DEDDC1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FE7119942609E87300DEDDC1 /* CoinController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinController.swift; sourceTree = "<group>"; };
 		FE89A58B2604645400440076 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
 		FE89A58E26046A7700440076 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		FE89A59126046A9200440076 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
@@ -57,7 +61,7 @@
 		FEC6FF882603116100E28D57 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		FEC6FF902603132500E28D57 /* OnboardingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingController.swift; sourceTree = "<group>"; };
 		FEC6FF97260326CD00E28D57 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
-		FEC6FFA126032D6200E28D57 /* CoinController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinController.swift; sourceTree = "<group>"; };
+		FEC6FFA126032D6200E28D57 /* CoinCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinCollectionController.swift; sourceTree = "<group>"; };
 		FEC6FFA426032D7600E28D57 /* WatchListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchListController.swift; sourceTree = "<group>"; };
 		FEC6FFA726032E1200E28D57 /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		FEC6FFAA26032ED800E28D57 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -98,8 +102,9 @@
 			children = (
 				FEC6FFAA26032ED800E28D57 /* TabBarController.swift */,
 				FEC6FF902603132500E28D57 /* OnboardingController.swift */,
-				FEC6FFA126032D6200E28D57 /* CoinController.swift */,
+				FEC6FFA126032D6200E28D57 /* CoinCollectionController.swift */,
 				FEC6FFA426032D7600E28D57 /* WatchListController.swift */,
+				FE7119942609E87300DEDDC1 /* CoinController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -134,6 +139,7 @@
 				FEC6FF7D26030F8700E28D57 /* Supporting Files */,
 				FEC6FF5726030DEC00E28D57 /* AppDelegate.swift */,
 				FEC6FF5926030DEC00E28D57 /* SceneDelegate.swift */,
+				FE7119902609D98E00DEDDC1 /* GoogleService-Info.plist */,
 			);
 			path = CryptoWatch;
 			sourceTree = "<group>";
@@ -226,6 +232,7 @@
 				FEC6FF5126030DEB00E28D57 /* Frameworks */,
 				FEC6FF5226030DEB00E28D57 /* Resources */,
 				6A09DEC90184478B95B98C6A /* [CP] Embed Pods Frameworks */,
+				223887804B702CC60F7A5ACC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -275,12 +282,30 @@
 			files = (
 				FEC6FF6726030DEE00E28D57 /* LaunchScreen.storyboard in Resources */,
 				FEC6FF6426030DEE00E28D57 /* Assets.xcassets in Resources */,
+				FE7119912609D98E00DEDDC1 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		223887804B702CC60F7A5ACC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CryptoWatch/Pods-CryptoWatch-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CryptoWatch/Pods-CryptoWatch-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CryptoWatch/Pods-CryptoWatch-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6A09DEC90184478B95B98C6A /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -339,8 +364,9 @@
 				FEC6FFA526032D7600E28D57 /* WatchListController.swift in Sources */,
 				FEC6FF5826030DEC00E28D57 /* AppDelegate.swift in Sources */,
 				FE2F69472608258300F85B20 /* CoreDataStack.swift in Sources */,
+				FE7119952609E87300DEDDC1 /* CoinController.swift in Sources */,
 				FE89A58F26046A7700440076 /* Response.swift in Sources */,
-				FEC6FFA226032D6200E28D57 /* CoinController.swift in Sources */,
+				FEC6FFA226032D6200E28D57 /* CoinCollectionController.swift in Sources */,
 				FEC6FF912603132500E28D57 /* OnboardingController.swift in Sources */,
 				FE89A59226046A9200440076 /* NetworkError.swift in Sources */,
 				FE89A58C2604645400440076 /* Coin.swift in Sources */,

@@ -11,6 +11,6 @@ struct Constants {
     static let coinCollectionViewCellIdentifier: String = "CoinCollectionViewCell"
     static let coinTableViewCellIdentifier: String = "CoinTableViewCell"
     static let baseURL: String = "https://rest.coinapi.io/"
-    static let assetURL: String = "https://rest.coinapi.io/v1/assets"
+    static let assetListURL: String = "https://rest.coinapi.io/v1/assets"
     static let assetIconURL: String = "https://rest.coinapi.io/v1/assets/icons"
 }

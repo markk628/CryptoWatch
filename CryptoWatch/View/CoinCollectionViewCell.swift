@@ -96,4 +96,8 @@ class CoinCollectionViewCell: UICollectionViewCell {
 //            $0.height.equalTo(30)
 //        }
     }
+    
+    override func prepareForReuse() {
+        coinIconImageView.image = nil
+    }
 }

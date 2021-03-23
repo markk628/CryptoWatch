@@ -1,211 +1,136 @@
 //
-//  CoinCollectionController.swift
+//  CoinController.swift
 //  CryptoWatch
 //
-//  Created by Mark Kim on 3/17/21.
+//  Created by Mark Kim on 3/23/21.
 //
 
 import UIKit
 import SnapKit
 import Kingfisher
 
-class CoinCollectionController: UIViewController {
+class CoinController: UIViewController {
     
-    //MARK: Properties
-    var coordinator: TabBarCoordinator!
-    private let networkManager = NetworkManager()
-    
-    private var coins: [Coin] = [] {
-        didSet {
-            self.coinCollectionView.reloadData()
-        }
-    }
-    
-    private var icons: [Icon] = [] //{
-//        didSet {
-//            self.coinCollectionView.reloadData()
-//        }
-//    }
-    
-    private var filteredCoins: [Coin]!
+    var coin: MyCoin!
     
     //MARK: Views
-    private lazy var coinSearchController: UISearchController = {
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.placeholder = "Search coins"
-        searchController.searchBar.delegate = self
-        return searchController
+    lazy var coinIconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.backgroundColor = .white
+        imageView.contentMode = .scaleToFill
+        imageView.layer.masksToBounds = false
+        return imageView
     }()
     
-    lazy var coinCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.backgroundColor = .clear
-        collectionView.register(CoinCollectionViewCell.self, forCellWithReuseIdentifier: Constants.coinCollectionViewCellIdentifier)
-        return collectionView
+    lazy var coinNameLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        return label
     }()
     
-    private lazy var refreshControl: UIRefreshControl = {
-        let refresh = UIRefreshControl()
-        refresh.addTarget(self, action: #selector(refreshCoinCollection), for: .valueChanged)
-        return refresh
+    lazy var coinIDLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        return label
     }()
     
-    //MARK: Life Cycle
+//    lazy var dateAddedLabel: UILabel = {
+//        let label = UILabel()
+//        label.textAlignment = .center
+//        return label
+//    }()
+//
+//    lazy var priceWhenAddedLabel: UILabel = {
+//        let label = UILabel()
+//        label.textAlignment = .center
+//        return label
+//    }()
+    
+    lazy var coinCurrentPriceLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        return label
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        getCoins()
+        getCoin()
     }
     
-    //MARK: Methods
     private func setupViews() {
-        self.title = "Coins"
         self.view.backgroundColor = .cwBlack
-        self.navigationItem.searchController = coinSearchController
-        self.view.addSubview(coinCollectionView)
-        coinCollectionView.snp.makeConstraints {
-            $0.top.left.equalToSuperview().offset(10)
-            $0.right.bottom.equalToSuperview().offset(-10)
+        self.view.addSubview(coinIconImageView)
+        coinIconImageView.snp.makeConstraints {
+            $0.width.height.equalTo(150)
+            $0.center.equalToSuperview()
+        }
+        coinIconImageView.kf.setImage(with: URL(string: coin.icon ?? "https://chronicle.brightspotcdn.com/dims4/default/3bb9fc2/2147483647/strip/true/crop/625x401+0+0/resize/1680x1078!/format/webp/quality/90/?url=http%3A%2F%2Fchronicle-brightspot.s3.amazonaws.com%2F89%2F74%2F4b46fe3effe1e4f0fa4ce534f383%2Fnothing-to-see-15a34a2fc727c8.jpg"), placeholder: nil, options: nil) { (receivedSize, totalSize) in
+            
+        } completionHandler: { (result) in
+            do {
+                let _ = try result.get()
+            } catch {
+                DispatchQueue.main.async {
+                    print("Downloaded image")
+                }
+            }
+        }
+        
+        self.view.addSubview(coinIDLabel)
+        coinIDLabel.snp.makeConstraints {
+            $0.width.equalTo(coinIconImageView)
+            $0.height.equalTo(30)
+            $0.top.equalTo(coinIconImageView.snp.bottom).offset(15)
+            $0.centerX.equalToSuperview()
+        }
+        coinIDLabel.text = coin.assetId
+        
+        self.view.addSubview(coinNameLabel)
+        coinNameLabel.snp.makeConstraints {
+            $0.width.equalTo(coinIconImageView)
+            $0.height.equalTo(30)
+            $0.top.equalTo(coinIDLabel.snp.bottom).offset(15)
+            $0.centerX.equalToSuperview()
+        }
+        coinNameLabel.text = coin.name
+        
+//        self.view.addSubview(dateAddedLabel)
+//        dateAddedLabel.snp.makeConstraints {
+//            $0.width.equalTo(coinIconImageView)
+//            $0.height.equalTo(30)
+//            $0.top.equalTo(coinNameLabel.snp.bottom).offset(15)
+//            $0.centerX.equalToSuperview()
+//        }
+//
+//        self.view.addSubview(priceWhenAddedLabel)
+//        priceWhenAddedLabel.snp.makeConstraints {
+//            $0.width.equalTo(coinIconImageView)
+//            $0.height.equalTo(30)
+//            $0.top.equalTo(dateAddedLabel.snp.bottom).offset(15)
+//            $0.centerX.equalToSuperview()
+//        }
+        
+        self.view.addSubview(coinCurrentPriceLabel)
+        coinCurrentPriceLabel.snp.makeConstraints {
+            $0.width.equalToSuperview().multipliedBy(0.8)
+            $0.height.equalTo(30)
+            $0.top.equalTo(coinNameLabel.snp.bottom)
+            $0.centerX.equalToSuperview()
         }
     }
     
-    private func getCoins() {
-        networkManager.getCoins { (result) in
+    private func getCoin() {
+        NetworkManager.shared.getCoin(coin: coin.assetId!) { (result) in
             switch result {
-            case let .success(pulledCoins):
-                self.coins = pulledCoins.filter { $0.type_is_crypto == 1}
-                self.coins.sort { $0.price_usd ?? 0 > $1.price_usd ?? 0 }
-                DispatchQueue.main.async {
-                    self.coinCollectionView.reloadData()
+            case let .success(pulledCoin):
+//                self.coin = pulledCoin
+                if let coinId = self.coin.assetId {
+                    self.coinCurrentPriceLabel.text = "$\(round(1000 * (pulledCoin.first?.price_usd!)!) / 1000)/\(String(describing: coinId))"
                 }
-                self.refreshControl.endRefreshing()
             case let .failure(error):
                 print(error)
             }
         }
-    }
-    
-    private func configureCell(cell: UICollectionViewCell, for indexPath: IndexPath) {
-        guard let cell = cell as? CoinCollectionViewCell else { return }
-        let coin = coins[indexPath.row]
-        
-        DispatchQueue.global(qos: .userInteractive).async {
-            DispatchQueue.main.async {
-                self.networkManager.getCoinIcons { (result) in
-                    switch result {
-                    case let .success(pulledIcons):
-                        self.icons = pulledIcons
-                        for icon in pulledIcons {
-                            if icon.asset_id == coin.asset_id {
-                                let imageUrl = URL(string: icon.url)
-                                cell.coinIconImageView.kf.setImage(with: imageUrl, placeholder: nil, options: nil) { (receivedSize, totalSize) in
-                                    
-                                } completionHandler: { (result) in
-                                    do {
-                                        let _ = try result.get()
-                                    } catch {
-                                        DispatchQueue.main.async {
-                                            print("Downloaded images")
-                                        }
-                                    }
-                                }
-                                
-                                
-                            }
-                        }
-                    case let .failure(error):
-                        print(error)
-                    }
-                }
-            }
-        }
-        
-        cell.coinNameLabel.text = coin.name ?? coin.asset_id
-        guard let currentPrice = coin.price_usd else { return }
-        cell.coinCurrentPriceLabel.text = "$\(round(1000 * currentPrice) / 1000)/\(coin.asset_id)"
-    }
-    
-    private func saveCoinToWatchList(cell: UICollectionViewCell, for indexPath: IndexPath) {
-        guard cell is CoinCollectionViewCell else { return }
-        let coin = coins[indexPath.row]
-        let newCoin = MyCoin(context: CoreDataStack.shared.mainContext)
-        newCoin.assetId = coin.asset_id
-        newCoin.name = coin.name
-//        newCoin.icon = cell.coinIconImageView.image
-        for icon in icons {
-            if icon.asset_id == coin.asset_id {
-                newCoin.icon = icon.url
-            }
-        }
-        CoreDataStack.shared.saveContext()
-        print("saved")
-    }
-    
-    @objc func refreshCoinCollection() {
-        getCoins()
-    }
-}
-
-extension CoinCollectionController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filteredCoins = []
-        
-        if searchText.isEmpty {
-            filteredCoins = coins
-            //            getCoins()
-        } else {
-            for coin in coins {
-                if coin.name?.lowercased().contains(searchText.lowercased()) ?? false || coin.asset_id.lowercased().contains(searchText.lowercased()) {
-                    filteredCoins.append(coin)
-                }
-            }
-            coins = filteredCoins
-        }
-        self.coinCollectionView.reloadData()
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        getCoins()
-    }
-}
-
-extension CoinCollectionController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width/2.1, height: collectionView.frame.width/2.1)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10.0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10.0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 3, bottom: 0, right: 3)
-    }
-}
-
-extension CoinCollectionController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.coins.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.coinCollectionViewCellIdentifier, for: indexPath) as! CoinCollectionViewCell
-        //        DispatchQueue.global(qos: .userInteractive).async {
-        DispatchQueue.main.async {
-            self.configureCell(cell: cell, for: indexPath)
-        }
-        //        }
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        saveCoinToWatchList(cell: collectionView.cellForItem(at: indexPath)!, for: indexPath)
     }
 }

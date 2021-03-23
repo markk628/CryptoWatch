@@ -10,10 +10,10 @@ import SnapKit
 
 class OnboardingController: UIViewController {
     
+    //MARK: Properties
     var coordinator: AppCoordinator!
     
-//    let viewModel
-    
+    //MARK: Views
     private let logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -22,27 +22,23 @@ class OnboardingController: UIViewController {
         return imageView
     }()
     
-//    private let cryptoWatchLabel: UILabel = {
-//        let label = UILabel()
-//        label.text = "CryptoWatch"
-//        label.textAlignment = .center
-//        return label
-//    }()
-    
     private let watchButton: UIButton = {
         let button = UIButton()
         button.setTitle("Watch", for: .normal)
+        button.setTitleColor(.blueNCS, for: .normal)
         button.addTarget(self, action: #selector(watchButtonTapped), for: .touchUpInside)
         return button
     }()
-
+    
+    //MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
     }
     
+    //MARK: Methods
     private func setupViews() {
-        self.view.backgroundColor = .cwBlack
+        self.view.backgroundColor = .lightOxfordBlue
         self.view.addSubview(logoImageView)
         logoImageView.snp.makeConstraints {
             $0.height.width.equalTo(150)
@@ -59,6 +55,6 @@ class OnboardingController: UIViewController {
     }
     
     @objc func watchButtonTapped() {
-        coordinator.goToCoinController()
+        coordinator.goToCoinCollectionController()
     }
 }

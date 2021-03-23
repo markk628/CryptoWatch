@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/markkim/dev/courses/Completed Courses:Projects/intensive/CryptoWatch/CryptoWatch/CoreDataStack/MyCoin+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/markkim/dev/courses/Completed Courses:Projects/intensive/CryptoWatch/CryptoWatch/CoreDataStack/MyCoin+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
       location = "group:CryptoWatch.xcodeproj">
    </FileRef>
    <FileRef

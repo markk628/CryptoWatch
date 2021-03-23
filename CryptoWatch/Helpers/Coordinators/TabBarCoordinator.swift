@@ -12,29 +12,31 @@ class TabBarCoordinator: NSObject, UITabBarControllerDelegate, Coordinator {
     //MARK: Properties
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
-    var coinNavigationController: UINavigationController!
-    var notificationsNavigationController: UINavigationController!
+    var coinCollectionNavigationController: UINavigationController!
+    var watchListNavigationController: UINavigationController!
     var tabBarController = TabBarController()
     
+    //MARK: Initialize
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
     
+    //MARK: Methods
     func start() {
         tabBarController.coordinator = self
         tabBarController.delegate = self
         
-        let coinController = CoinController()
-        coinController.coordinator = self
-        coinNavigationController = UINavigationController(rootViewController: coinController)
-        coinNavigationController.tabBarItem = UITabBarItem(title: "Coins", image: UIImage(systemName: "bitcoinsign.circle"), tag: 0)
+        let coinCollectionController = CoinCollectionController()
+        coinCollectionController.coordinator = self
+        coinCollectionNavigationController = UINavigationController(rootViewController: coinCollectionController)
+        coinCollectionNavigationController.tabBarItem = UITabBarItem(title: "Coins", image: UIImage(systemName: "bitcoinsign.circle"), tag: 0)
         
-        let notificationsController = NotificationsController()
-        notificationsController.coordinator = self
-        notificationsNavigationController = UINavigationController(rootViewController: notificationsController)
-        notificationsNavigationController.tabBarItem = UITabBarItem(title: "Watch", image: UIImage(systemName: "eye"), tag: 1)
+        let watchListController = WatchListController()
+        watchListController.coordinator = self
+        watchListNavigationController = UINavigationController(rootViewController: watchListController)
+        watchListNavigationController.tabBarItem = UITabBarItem(title: "WatchList", image: UIImage(systemName: "eye"), tag: 1)
         
-        tabBarController.viewControllers = [coinNavigationController, notificationsNavigationController]
+        tabBarController.viewControllers = [coinCollectionNavigationController, watchListNavigationController]
         
         tabBarController.modalPresentationStyle = .fullScreen
         tabBarController.setupNavigationController()

@@ -16,21 +16,24 @@ protocol Coordinator {
 
 class AppCoordinator: Coordinator {
     
+    //MARK: Properties
     var childCoordinators: [Coordinator] = []
     lazy var navigationController: UINavigationController = UINavigationController()
     
+    //MARK: Initialize
     init(window: UIWindow) {
         window.rootViewController = navigationController
         setupNavigationController()
     }
     
+    //Methods
     func start() {
         let vc = OnboardingController()
         vc.coordinator = self
         navigationController.pushViewController(vc, animated: false)
     }
     
-    func goToCoinController() {
+    func goToCoinCollectionController() {
         let tabBarCoordinator = TabBarCoordinator(navigationController: navigationController)
         tabBarCoordinator.start()
     }

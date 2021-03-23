@@ -12,12 +12,13 @@ class TabBarController: UITabBarController {
     //MARK: Properties
     var coordinator: TabBarCoordinator!
     
-    //MARK: App Life Cycle
+    //MARK: Life Cycle
     override func viewDidLoad() {
         setupTabBarController()
     }
 }
 
+//MARK: Methods
 extension TabBarController {
     func setupNavigationController() {
         for i in 0...1 {

@@ -8,12 +8,15 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import Combine
 
-class CoinCollectionController: UIViewController {
+class CoinCollectionController: UIViewController, CryptoPriceDelegate {
     
     //MARK: Properties
     var coordinator: TabBarCoordinator!
     //    private let networkManager = NetworkManager()
+    
+    let service = WebSocketService()
     
     private var coins: [Coin] = [] {
         didSet {
@@ -21,11 +24,7 @@ class CoinCollectionController: UIViewController {
         }
     }
     
-    private var icons: [Icon] = [] //{
-    //        didSet {
-    //            self.coinCollectionView.reloadData()
-    //        }
-    //    }
+    private var icons: [Icon] = []
     
     private var filteredCoins: [Coin]!
     
@@ -58,6 +57,8 @@ class CoinCollectionController: UIViewController {
         super.viewDidLoad()
         setupViews()
         getCoins()
+        service.cryptoPriceDelegate = self
+//        service.connect()
     }
     
     //MARK: Methods
@@ -77,7 +78,7 @@ class CoinCollectionController: UIViewController {
             switch result {
             case let .success(pulledCoins):
                 self.coins = pulledCoins.filter { $0.type_is_crypto == 1}
-//                self.coins.sort { $0.price_usd ?? 0 > $1.price_usd ?? 0 }
+                //                self.coins.sort { $0.price_usd ?? 0 > $1.price_usd ?? 0 }
                 DispatchQueue.main.async {
                     self.coinCollectionView.reloadData()
                 }
@@ -149,6 +150,10 @@ class CoinCollectionController: UIViewController {
         let alert = UIAlertController(title: coin, message: "Saved \(coin) to watch list", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         self.present(alert, animated: true)
+    }
+    
+    func sendPrice() {
+        print("\(service.priceResult)")
     }
     
     @objc func refreshCoinCollection() {

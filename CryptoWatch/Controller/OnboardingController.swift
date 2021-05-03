@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import GoogleSignIn
 
 class OnboardingController: UIViewController {
     
@@ -23,17 +22,10 @@ class OnboardingController: UIViewController {
         return imageView
     }()
     
-//    private let watchButton: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("Watch", for: .normal)
-//        button.setTitleColor(.blueNCS, for: .normal)
-//        button.addTarget(self, action: #selector(watchButtonTapped), for: .touchUpInside)
-//        return button
-//    }()
-    
-    private let watchButton: GIDSignInButton = {
-        let button = GIDSignInButton()
-        button.colorScheme = .dark
+    private let watchButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Watch", for: .normal)
+        button.setTitleColor(.blueNCS, for: .normal)
         button.addTarget(self, action: #selector(watchButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -42,7 +34,6 @@ class OnboardingController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        GIDSignIn.sharedInstance()?.presentingViewController = self
     }
     
     //MARK: Methods

@@ -11,23 +11,31 @@ import SnapKit
 class CoinTableViewCell: UITableViewCell {
     
     //MARK: Views
+    lazy var mainStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.backgroundColor = .lightOxfordBlue
+        return stackView
+    }()
+    
     lazy var coinIconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .white
-        imageView.contentMode = .scaleToFill
+        imageView.backgroundColor = .clear
+        imageView.contentMode = .scaleAspectFit
         imageView.layer.masksToBounds = false
         return imageView
     }()
     
     lazy var coinNameLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
         return label
     }()
     
     lazy var coinCurrentPriceLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
+        label.text = "some shit"
         return label
     }()
 
@@ -55,23 +63,35 @@ class CoinTableViewCell: UITableViewCell {
     }
     
     func setupCoinTableViewCell() {
-        self.backgroundColor = .lightOxfordBlue
-        self.addSubview(coinIconImageView)
+        self.backgroundColor = .clear
+        self.addSubview(mainStackView)
+//        self.addSubview(coinIconImageView)
+        
+        mainStackView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(5)
+            $0.leading.equalToSuperview().offset(10)
+            $0.trailing.equalToSuperview().offset(-10)
+            $0.bottom.equalToSuperview().offset(-5)
+        }
+        
+        [coinIconImageView, coinNameLabel, coinCurrentPriceLabel].forEach {
+            mainStackView.addArrangedSubview($0)
+            $0.snp.makeConstraints {
+                $0.top.equalToSuperview().offset(10)
+                $0.bottom.equalToSuperview().offset(-10)
+            }
+        }
+    
         coinIconImageView.snp.makeConstraints {
-            $0.width.equalTo(self.snp.height)
-            $0.left.centerY.height.equalToSuperview()
+            $0.left.equalToSuperview().offset(10)
         }
         
-        self.addSubview(coinNameLabel)
         coinNameLabel.snp.makeConstraints {
-            $0.width.equalToSuperview().multipliedBy(0.5)
-            $0.height.centerX.centerY.equalToSuperview()
+            $0.left.equalTo(coinIconImageView.snp.right).offset(15)
         }
         
-        self.addSubview(coinCurrentPriceLabel)
         coinCurrentPriceLabel.snp.makeConstraints {
-            $0.left.equalTo(coinNameLabel.snp.right)
-            $0.right.centerY.height.equalToSuperview()
+            $0.right.equalToSuperview().offset(-10)
         }
     }
 

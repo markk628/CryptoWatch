@@ -14,6 +14,8 @@ protocol CryptoPriceDelegate: class {
 
 class WebSocketService: ObservableObject {
     
+    static let shared = WebSocketService()
+    
     private let urlSession: URLSession = URLSession(configuration: .default)
     private var webSocketTask: URLSessionWebSocketTask?
     

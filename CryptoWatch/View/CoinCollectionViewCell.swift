@@ -11,14 +11,6 @@ import SnapKit
 class CoinCollectionViewCell: UICollectionViewCell {
     
     //MARK: Poperties
-//    var details: Coin? {
-//        didSet {
-//            guard let details = self.details else { return }
-////            let coinImageUrl = URL(string: <#T##String#>)
-//            coinNameLabel.text = details.name
-////            coinCurrentPriceLabel.text = "\(details.price_usd)"
-//        }
-//    }
     
     //MARK: Views
     lazy var mainStackView: UIStackView = {
@@ -30,18 +22,11 @@ class CoinCollectionViewCell: UICollectionViewCell {
     
     lazy var coinIconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .white
+        imageView.backgroundColor = .clear
         imageView.contentMode = .scaleAspectFit
         imageView.layer.masksToBounds = true
         return imageView
     }()
-    
-//    lazy var coinIdLabel: UILabel = {
-//        let label = UILabel()
-//        label.text = "BTC"
-//        label.textAlignment = .center
-//        return label
-//    }()
     
     lazy var coinNameLabel: UILabel = {
         let label = UILabel()
@@ -68,8 +53,8 @@ class CoinCollectionViewCell: UICollectionViewCell {
     //MARK: Methods
     func setupCoinCollectionViewCell() {
         self.backgroundColor = .lightOxfordBlue
-//        self.layer.cornerRadius = 10.0
         self.addSubview(mainStackView)
+        
         mainStackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -82,19 +67,15 @@ class CoinCollectionViewCell: UICollectionViewCell {
         }
         
         coinIconImageView.snp.makeConstraints {
-            $0.height.equalToSuperview().multipliedBy(0.64)
-//            $0.width.equalTo(mainStackView).multipliedBy(0.3)
+            $0.height.equalToSuperview().multipliedBy(0.5)
+            $0.top.equalToSuperview().offset(10)
         }
         
         [coinNameLabel, coinCurrentPriceLabel].forEach {
             $0.snp.makeConstraints {
-                $0.height.equalToSuperview().multipliedBy(0.18)
+                $0.height.equalToSuperview().multipliedBy(0.25)
             }
         }
-//        
-//        coinIdLabel.snp.makeConstraints {
-//            $0.height.equalTo(30)
-//        }
     }
     
     override func prepareForReuse() {

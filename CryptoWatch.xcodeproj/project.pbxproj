@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		1CADE23D2C05ADB8B7E4C1D0 /* Pods_CryptoWatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B91AC94306AE4D6580AB33E /* Pods_CryptoWatch.framework */; };
 		FE0813AB263BD7CB008169DA /* WebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0813AA263BD7CB008169DA /* WebSocketService.swift */; };
-		FE0AF33F26364D9B00F76F0B /* MyCoin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0AF33E26364D9B00F76F0B /* MyCoin+CoreDataClass.swift */; };
-		FE0AF34026364D9B00F76F0B /* MyCoin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0AF33D26364D9B00F76F0B /* MyCoin+CoreDataProperties.swift */; };
 		FE13830526364B9A00C115D5 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE13830426364B9A00C115D5 /* APIKey.swift */; };
 		FE2F69472608258300F85B20 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2F69462608258300F85B20 /* CoreDataStack.swift */; };
 		FE2F69512608307800F85B20 /* CoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2F69502608307800F85B20 /* CoinTableViewCell.swift */; };
@@ -20,6 +18,9 @@
 		FE89A59226046A9200440076 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE89A59126046A9200440076 /* NetworkError.swift */; };
 		FE89A59526046AAE00440076 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE89A59426046AAD00440076 /* NetworkManager.swift */; };
 		FE89A59826046AF200440076 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE89A59726046AF200440076 /* Constants.swift */; };
+		FEACD5382641146200DCAD2B /* MyCoin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACD5372641146200DCAD2B /* MyCoin+CoreDataProperties.swift */; };
+		FEACD5392641146200DCAD2B /* MyCoin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACD5362641146200DCAD2B /* MyCoin+CoreDataClass.swift */; };
+		FEACD53C264121A600DCAD2B /* TargetPricePopupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACD53B264121A600DCAD2B /* TargetPricePopupController.swift */; };
 		FEC6FF5826030DEC00E28D57 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6FF5726030DEC00E28D57 /* AppDelegate.swift */; };
 		FEC6FF5A26030DEC00E28D57 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6FF5926030DEC00E28D57 /* SceneDelegate.swift */; };
 		FEC6FF6226030DEC00E28D57 /* CryptoWatch.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FEC6FF6026030DEC00E28D57 /* CryptoWatch.xcdatamodeld */; };
@@ -40,8 +41,6 @@
 		9E1A24647A6592B3B3B7981C /* Pods-CryptoWatch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoWatch.debug.xcconfig"; path = "Target Support Files/Pods-CryptoWatch/Pods-CryptoWatch.debug.xcconfig"; sourceTree = "<group>"; };
 		E9756E4B7DD9C6CBE35D0E91 /* Pods-CryptoWatch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoWatch.release.xcconfig"; path = "Target Support Files/Pods-CryptoWatch/Pods-CryptoWatch.release.xcconfig"; sourceTree = "<group>"; };
 		FE0813AA263BD7CB008169DA /* WebSocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketService.swift; sourceTree = "<group>"; };
-		FE0AF33D26364D9B00F76F0B /* MyCoin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "MyCoin+CoreDataProperties.swift"; path = "../../MyCoin+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		FE0AF33E26364D9B00F76F0B /* MyCoin+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "MyCoin+CoreDataClass.swift"; path = "../../MyCoin+CoreDataClass.swift"; sourceTree = "<group>"; };
 		FE13830426364B9A00C115D5 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		FE2F69462608258300F85B20 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		FE2F69502608307800F85B20 /* CoinTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinTableViewCell.swift; sourceTree = "<group>"; };
@@ -51,6 +50,9 @@
 		FE89A59126046A9200440076 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		FE89A59426046AAD00440076 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		FE89A59726046AF200440076 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		FEACD5362641146200DCAD2B /* MyCoin+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "MyCoin+CoreDataClass.swift"; path = "/Users/markkim/dev/courses/SUP/CryptoWatch/CryptoWatch/CoreDataStack/MyCoin+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		FEACD5372641146200DCAD2B /* MyCoin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "MyCoin+CoreDataProperties.swift"; path = "/Users/markkim/dev/courses/SUP/CryptoWatch/CryptoWatch/CoreDataStack/MyCoin+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
+		FEACD53B264121A600DCAD2B /* TargetPricePopupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetPricePopupController.swift; sourceTree = "<group>"; };
 		FEC6FF5426030DEC00E28D57 /* CryptoWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptoWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEC6FF5726030DEC00E28D57 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FEC6FF5926030DEC00E28D57 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				FEC6FFA126032D6200E28D57 /* CoinCollectionController.swift */,
 				FEC6FFA426032D7600E28D57 /* WatchListController.swift */,
 				FE7119942609E87300DEDDC1 /* CoinController.swift */,
+				FEACD53B264121A600DCAD2B /* TargetPricePopupController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -173,8 +176,8 @@
 		FEC6FF84260310EC00E28D57 /* CoreDataStack */ = {
 			isa = PBXGroup;
 			children = (
-				FE0AF33E26364D9B00F76F0B /* MyCoin+CoreDataClass.swift */,
-				FE0AF33D26364D9B00F76F0B /* MyCoin+CoreDataProperties.swift */,
+				FEACD5362641146200DCAD2B /* MyCoin+CoreDataClass.swift */,
+				FEACD5372641146200DCAD2B /* MyCoin+CoreDataProperties.swift */,
 				FEC6FF6026030DEC00E28D57 /* CryptoWatch.xcdatamodeld */,
 				FE2F69462608258300F85B20 /* CoreDataStack.swift */,
 			);
@@ -334,9 +337,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE2F69512608307800F85B20 /* CoinTableViewCell.swift in Sources */,
-				FE0AF33F26364D9B00F76F0B /* MyCoin+CoreDataClass.swift in Sources */,
-				FE0AF34026364D9B00F76F0B /* MyCoin+CoreDataProperties.swift in Sources */,
 				FEC6FF892603116100E28D57 /* AppCoordinator.swift in Sources */,
+				FEACD5382641146200DCAD2B /* MyCoin+CoreDataProperties.swift in Sources */,
 				FE89A59826046AF200440076 /* Constants.swift in Sources */,
 				FEC6FF98260326CD00E28D57 /* UIColor+Extensions.swift in Sources */,
 				FE13830526364B9A00C115D5 /* APIKey.swift in Sources */,
@@ -344,6 +346,8 @@
 				FEC6FF6226030DEC00E28D57 /* CryptoWatch.xcdatamodeld in Sources */,
 				FE89A59526046AAE00440076 /* NetworkManager.swift in Sources */,
 				FEC6FFA526032D7600E28D57 /* WatchListController.swift in Sources */,
+				FEACD53C264121A600DCAD2B /* TargetPricePopupController.swift in Sources */,
+				FEACD5392641146200DCAD2B /* MyCoin+CoreDataClass.swift in Sources */,
 				FEC6FF5826030DEC00E28D57 /* AppDelegate.swift in Sources */,
 				FE2F69472608258300F85B20 /* CoreDataStack.swift in Sources */,
 				FE7119952609E87300DEDDC1 /* CoinController.swift in Sources */,

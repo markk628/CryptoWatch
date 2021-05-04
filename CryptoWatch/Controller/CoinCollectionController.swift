@@ -10,14 +10,11 @@ import SnapKit
 import Kingfisher
 import Combine
 
-class CoinCollectionController: UIViewController, CryptoPriceDelegate {
+class CoinCollectionController: UIViewController {
     
     //MARK: Properties
     var coordinator: TabBarCoordinator!
-    //    private let networkManager = NetworkManager()
-    
-    let service = WebSocketService()
-    
+        
     private var coins: [Coin] = [] {
         didSet {
             self.coinCollectionView.reloadData()
@@ -57,8 +54,6 @@ class CoinCollectionController: UIViewController, CryptoPriceDelegate {
         super.viewDidLoad()
         setupViews()
         getCoins()
-        service.cryptoPriceDelegate = self
-//        service.connect()
     }
     
     //MARK: Methods
@@ -77,7 +72,8 @@ class CoinCollectionController: UIViewController, CryptoPriceDelegate {
         NetworkManager.shared.getCoins { (result) in
             switch result {
             case let .success(pulledCoins):
-                self.coins = pulledCoins.filter { $0.type_is_crypto == 1}
+                self.coins = pulledCoins.filter { $0.type_is_crypto == 1 }
+                    .filter { $0.price_usd != nil}
                 //                self.coins.sort { $0.price_usd ?? 0 > $1.price_usd ?? 0 }
                 DispatchQueue.main.async {
                     self.coinCollectionView.reloadData()
@@ -142,18 +138,13 @@ class CoinCollectionController: UIViewController, CryptoPriceDelegate {
             }
         }
         CoreDataStack.shared.saveContext()
-        showSavedCoinAlert(coin: coin.name ?? "No name")
+        showSavedCoinAlert()
         print("saved")
     }
     
-    private func showSavedCoinAlert(coin: String) {
-        let alert = UIAlertController(title: coin, message: "Saved \(coin) to watch list", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        self.present(alert, animated: true)
-    }
-    
-    func sendPrice() {
-        print("\(service.priceResult)")
+    private func showSavedCoinAlert() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
     }
     
     @objc func refreshCoinCollection() {

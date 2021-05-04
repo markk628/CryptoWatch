@@ -38,7 +38,7 @@ class OnboardingController: UIViewController {
     
     //MARK: Methods
     private func setupViews() {
-        self.view.backgroundColor = .lightOxfordBlue
+        self.view.backgroundColor = .cwBlack
         self.view.addSubview(logoImageView)
         logoImageView.snp.makeConstraints {
             $0.height.width.equalTo(150)

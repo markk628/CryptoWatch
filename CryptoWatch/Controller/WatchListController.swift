@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class WatchListController: UIViewController {
+class WatchListController: UIViewController, CryptoPriceDelegate {
 
     //MARK: Properties
     var coordinator: TabBarCoordinator!
@@ -39,8 +39,8 @@ class WatchListController: UIViewController {
     
     lazy var coinTableView: UITableView = {
         let table = UITableView()
-        table.rowHeight = 100
-//        table.separatorStyle = UITableViewCell.SeparatorStyle.none
+        table.rowHeight = 120
+        table.separatorStyle = .none
         table.allowsSelectionDuringEditing = true
         table.delegate = self
         table.dataSource = self
@@ -60,6 +60,8 @@ class WatchListController: UIViewController {
         super.viewDidLoad()
         setupViews()
         fetchResults()
+        WebSocketService.shared.cryptoPriceDelegate = self
+//        WebSocketService.shared.connect()
     }
     
     //MARK: Methods
@@ -102,6 +104,10 @@ class WatchListController: UIViewController {
     
     @objc func refreshCoinTable() {
         fetchResults()
+    }
+    
+    func sendPrice() {
+        print("\(WebSocketService.shared.priceResult)")
     }
 }
 
@@ -161,9 +167,15 @@ extension WatchListController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let coin = fetchedResultsController.object(at: indexPath)
         // modal/popup/whatever
-        let vc = CoinController()
-        vc.coin = coin
-        self.present(vc, animated: true, completion: nil)
+//        let vc = CoinController()
+//        vc.coin = coin
+//        self.present(vc, animated: true, completion: nil)
+        let popup = TargetPricePopupController()
+        popup.coin = coin
+        self.addChild(popup)
+        popup.view.frame = self.view.frame
+        self.view.addSubview(popup.view)
+        popup.didMove(toParent: self)
     }
 }
 

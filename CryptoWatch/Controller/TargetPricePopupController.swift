@@ -45,8 +45,16 @@ class TargetPricePopupController: UIViewController {
         label.textAlignment = .center
         return label
     }()
+    
+    let bar: UIToolbar = {
+        let bar = UIToolbar()
+        let done = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(dismissKeyboard))
+        bar.items = [done]
+        bar.sizeToFit()
+        return bar
+    }()
         
-    lazy var coinTargetPriceLabel: UITextField = {
+    lazy var coinTargetPriceTextField: UITextField = {
         let textField = UITextField()
         textField.textAlignment = .center
         textField.returnKeyType = .done
@@ -54,6 +62,7 @@ class TargetPricePopupController: UIViewController {
         textField.backgroundColor = .white
         textField.textColor = .oxfordBlue
         textField.text = String(coin.targetPrice)
+        textField.inputAccessoryView = bar
         return textField
     }()
     
@@ -72,11 +81,13 @@ class TargetPricePopupController: UIViewController {
         button.addTarget(self, action: #selector(closePopup), for: .touchUpInside)
         return button
     }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         getCoin()
+       
     }
     
     fileprivate func setupBackground() {
@@ -84,6 +95,7 @@ class TargetPricePopupController: UIViewController {
     }
     
     fileprivate func setupViews() {
+       
         setupBackground()
         animatePopup()
         
@@ -135,8 +147,8 @@ class TargetPricePopupController: UIViewController {
             $0.centerX.equalToSuperview()
         }
         
-        popupView.addSubview(coinTargetPriceLabel)
-        coinTargetPriceLabel.snp.makeConstraints {
+        popupView.addSubview(coinTargetPriceTextField)
+        coinTargetPriceTextField.snp.makeConstraints {
             $0.width.equalToSuperview().multipliedBy(0.8)
             $0.height.equalTo(30)
             $0.top.equalTo(coinCurrentPriceLabel.snp.bottom).offset(10)
@@ -147,7 +159,7 @@ class TargetPricePopupController: UIViewController {
         saveButton.snp.makeConstraints {
             $0.width.equalToSuperview().multipliedBy(0.8)
             $0.height.equalTo(30)
-            $0.top.equalTo(coinTargetPriceLabel.snp.bottom).offset(10)
+            $0.top.equalTo(coinTargetPriceTextField.snp.bottom).offset(10)
             $0.centerX.equalToSuperview()
         }
         
@@ -158,6 +170,8 @@ class TargetPricePopupController: UIViewController {
             $0.top.equalTo(saveButton.snp.bottom).offset(5)
             $0.centerX.equalToSuperview()
         }
+        
+       
     }
     
     fileprivate func animatePopup() {
@@ -185,11 +199,15 @@ class TargetPricePopupController: UIViewController {
     }
     
     @objc private func saveTargetPrice() {
-        guard let target = coinTargetPriceLabel.text else { return }
+        guard let target = coinTargetPriceTextField.text else { return }
         coin.targetPrice = Double(target)!
         CoreDataStack.shared.saveContext()
         view.endEditing(true)
         showSavedCoinAlert()
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     private func getCoin() {

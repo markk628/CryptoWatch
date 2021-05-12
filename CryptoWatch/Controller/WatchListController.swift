@@ -9,7 +9,6 @@ import UIKit
 import CoreData
 
 class WatchListController: UIViewController, CryptoPriceDelegate {
-
     //MARK: Properties
     var coordinator: TabBarCoordinator!
     
@@ -21,21 +20,16 @@ class WatchListController: UIViewController, CryptoPriceDelegate {
         return fetchedResultsController
     }()
     
-    private var coins: [Coin] = [] {
-        didSet {
-            self.coinTableView.reloadData()
-        }
-    }
-    
-    private var filteredCoins: [Coin]!
+
+//    private var filteredCoins: [Coin]!
 
     //MARK: Views
-    private lazy var coinSearchController: UISearchController = {
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.placeholder = "Search coins"
-        searchController.searchBar.delegate = self
-        return searchController
-    }()
+//    private lazy var coinSearchController: UISearchController = {
+//        let searchController = UISearchController(searchResultsController: nil)
+//        searchController.searchBar.placeholder = "Search coins"
+//        searchController.searchBar.delegate = self
+//        return searchController
+//    }()
     
     lazy var coinTableView: UITableView = {
         let table = UITableView()
@@ -61,14 +55,16 @@ class WatchListController: UIViewController, CryptoPriceDelegate {
         setupViews()
         fetchResults()
         WebSocketService.shared.cryptoPriceDelegate = self
-//        WebSocketService.shared.connect()
+        WebSocketService.shared.connect()
+        WebSocketService.shared.coins = fetchedResultsController.fetchedObjects ?? []
+        
     }
     
     //MARK: Methods
     private func setupViews() {
         self.title = "Watch List"
         self.view.backgroundColor = .cwBlack
-        self.navigationItem.searchController = coinSearchController
+//        self.navigationItem.searchController = coinSearchController
         self.view.addSubview(coinTableView)
         coinTableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -79,6 +75,7 @@ class WatchListController: UIViewController, CryptoPriceDelegate {
         do {
             try fetchedResultsController.performFetch()
             self.refreshControl.endRefreshing()
+            
         } catch {
             fatalError("Error fetching coins from Core Data \(error)")
         }
@@ -100,40 +97,42 @@ class WatchListController: UIViewController, CryptoPriceDelegate {
             }
         }
         cell.coinNameLabel.text = coin.name ?? coin.assetId
+        cell.coinCurrentPriceLabel.text = String(coin.currentPrice)
     }
     
     @objc func refreshCoinTable() {
         fetchResults()
     }
     
-    func sendPrice() {
-        print("\(WebSocketService.shared.priceResult)")
+    func reloadTable() {
+//        coinTableView.reloadData()
+//        print("\(WebSocketService.shared.priceResult)")
     }
 }
 
 //MARK: Extensions
 //MARK: Searchbar
-extension WatchListController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filteredCoins = []
-
-        if searchText.isEmpty {
-            filteredCoins = coins
-        } else {
-            for coin in coins {
-                if coin.name?.lowercased().contains(searchText.lowercased()) ?? false || coin.asset_id.lowercased().contains(searchText.lowercased()) {
-                    filteredCoins.append(coin)
-                }
-            }
-            coins = filteredCoins
-        }
-        self.coinTableView.reloadData()
-    }
-
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        fetchResults()
-    }
-}
+//extension WatchListController: UISearchBarDelegate {
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//        filteredCoins = []
+//
+//        if searchText.isEmpty {
+//            filteredCoins = coins
+//        } else {
+//            for coin in coins {
+//                if coin.name?.lowercased().contains(searchText.lowercased()) ?? false || coin.asset_id.lowercased().contains(searchText.lowercased()) {
+//                    filteredCoins.append(coin)
+//                }
+//            }
+//            coins = filteredCoins
+//        }
+//        self.coinTableView.reloadData()
+//    }
+//
+//    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+//        fetchResults()
+//    }
+//}
 
 //MARK: TableView
 extension WatchListController: NSFetchedResultsControllerDelegate {
@@ -150,6 +149,7 @@ extension WatchListController: NSFetchedResultsControllerDelegate {
         case .update:
             let cell = coinTableView.cellForRow(at: indexPath!) as! CoinTableViewCell
             configureCell(cell: cell, for: indexPath!)
+
         case .move:
             coinTableView.deleteRows(at: [indexPath!], with: .automatic)
             coinTableView.insertRows(at: [newIndexPath!], with: .automatic)
@@ -196,9 +196,14 @@ extension WatchListController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
+        if editingStyle == .delete  {
             CoreDataStack.shared.mainContext.delete(fetchedResultsController.object(at: indexPath))
             CoreDataStack.shared.saveContext()
+            WebSocketService.shared.connect()
+            WebSocketService.shared.coins = fetchedResultsController.fetchedObjects ?? []
+        } else if editingStyle == .insert {
+            WebSocketService.shared.connect()
+            WebSocketService.shared.coins = fetchedResultsController.fetchedObjects ?? []
         }
     }
 }

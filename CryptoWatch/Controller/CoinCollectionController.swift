@@ -137,6 +137,7 @@ class CoinCollectionController: UIViewController {
                 newCoin.icon = icon.url
             }
         }
+        newCoin.currentPrice = coin.price_usd!
         CoreDataStack.shared.saveContext()
         showSavedCoinAlert()
         print("saved")

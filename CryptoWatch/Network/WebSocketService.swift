@@ -5,11 +5,11 @@
 //  Created by Mark Kim on 4/29/21.
 //
 
-import Foundation
+import UIKit
 import Combine
 
 protocol CryptoPriceDelegate: class {
-    func sendPrice()
+    func reloadTable()
 }
 
 class WebSocketService: ObservableObject {
@@ -20,7 +20,7 @@ class WebSocketService: ObservableObject {
     private var webSocketTask: URLSessionWebSocketTask?
     
     private let baseURL: URL = URL(string: "\(Constants.baseWebSocketURL)?token=\(webSocketAPIKey)")!
-        
+    
     let didChange = PassthroughSubject<Void, Never>()
     @Published var price: String = ""
     
@@ -31,6 +31,14 @@ class WebSocketService: ObservableObject {
             didChange.send()
         }
     }
+    
+//    var coins: [MyCoin]! {
+//        didSet {
+//            connect()
+//        }
+//    }
+    
+    var coins: [MyCoin]!
     
     weak var cryptoPriceDelegate: CryptoPriceDelegate?
     
@@ -48,7 +56,17 @@ class WebSocketService: ObservableObject {
         webSocketTask = urlSession.webSocketTask(with: baseURL)
         webSocketTask?.resume()
         
-        sendMessage()
+        DispatchQueue.global(qos: .userInteractive).async {
+            DispatchQueue.main.async {
+                
+                
+                
+                
+                self.coins.map { $0.assetId! }
+                    .forEach { self.sendMessage(coinSymbol: $0) }
+            }
+        }
+        
         receiveMessage()
         //sendPing()
     }
@@ -69,17 +87,20 @@ class WebSocketService: ObservableObject {
         webSocketTask?.cancel(with: .goingAway, reason: nil)
     }
     
-    private func sendMessage() {
-        let string = "{\"type\":\"subscribe\",\"symbol\":\"BINANCE:BTCUSDT\"}"
+    private func sendMessage(coinSymbol: String) {
+        
+        // if coin doesnt exist in exchange check other exchanges by iterating through them
+        let string = "{\"type\":\"subscribe\",\"symbol\":\"BINANCE:\(coinSymbol)USDT\"}"
         
         let message = URLSessionWebSocketTask.Message.string(string)
         webSocketTask?.send(message) { error in
             if let error = error {
                 print("WebSocket couldn't send message because: \(error)")
             }
-//            self.cryptoPriceDelegate?.sendPrice()
         }
     }
+    
+    
     
     private func receiveMessage() {
         webSocketTask?.receive { [weak self] result in
@@ -87,14 +108,34 @@ class WebSocketService: ObservableObject {
             case .failure(let error):
                 print("Error in receiving message: \(error)")
             case .success(.string(let str)):
+                //                do{
+                //                    let response = try JSONSerialization.jsonObject(with: Data(str.utf8), options: []) as? [String:Any]
+                //                    print(response)
+                //                }catch{
+                //                    return
+                //                }
+                
                 
                 do {
                     let decoder = JSONDecoder()
                     let result = try decoder.decode(APIResponse.self, from: Data(str.utf8))
                     DispatchQueue.main.async{
                         self?.price = "\(result.data[0].p)"
+                        
+                        // filter through coredata coins and find the coin.assetid that matches result.data s value and update current price with result.data p
+                        
+                        let symbol = result.data[0].s.components(separatedBy: ":").last
+//                        print(symbol)
+                        
+                        let coin = self!.coins.filter { (symbol?.contains($0.assetId!))! }
+                            .first
+                        let coinTempPrice = coin?.currentPrice
+                        coin?.currentPrice = Double(self!.priceResult) ?? coinTempPrice!
+                        CoreDataStack.shared.saveContext()
+                        self?.cryptoPriceDelegate?.reloadTable()
+                        
+                        
                     }
-                    self?.cryptoPriceDelegate?.sendPrice()
                 } catch  {
                     print("error is \(error.localizedDescription)")
                 }
@@ -120,9 +161,10 @@ struct APIResponse: Codable {
 
 struct PriceData : Codable{
     
+    public var s: String
     public var p: Float
     
     private enum CodingKeys: String, CodingKey {
-        case p
+        case s, p
     }
 }

@@ -2,11 +2,12 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D91" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="MyCoin" representedClassName="MyCoin" syncable="YES">
         <attribute name="assetId" optional="YES" attributeType="String"/>
+        <attribute name="currentPrice" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="icon" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="targetPrice" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" customClassName="UIImageView"/>
     </entity>
     <elements>
-        <element name="MyCoin" positionX="-63" positionY="-18" width="128" height="89"/>
+        <element name="MyCoin" positionX="-63" positionY="-18" width="128" height="104"/>
     </elements>
 </model>

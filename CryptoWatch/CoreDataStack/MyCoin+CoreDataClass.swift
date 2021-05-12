@@ -2,7 +2,7 @@
 //  MyCoin+CoreDataClass.swift
 //  
 //
-//  Created by Mark Kim on 5/3/21.
+//  Created by Mark Kim on 5/7/21.
 //
 //
 

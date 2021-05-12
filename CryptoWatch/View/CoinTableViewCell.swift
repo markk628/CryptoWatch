@@ -35,7 +35,6 @@ class CoinTableViewCell: UITableViewCell {
     lazy var coinCurrentPriceLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.text = "some shit"
         return label
     }()
 

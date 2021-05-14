@@ -53,10 +53,6 @@ class WebSocketService: ObservableObject {
         
         DispatchQueue.global(qos: .userInteractive).async {
             DispatchQueue.main.async {
-                
-                
-                
-                
                 self.coins.map { $0.assetId! }
                     .forEach { self.sendMessage(coinSymbol: $0) }
             }
@@ -120,8 +116,8 @@ class WebSocketService: ObservableObject {
                         
                         if coinTempPrice! < coin!.targetPrice && coin!.targetPrice < Double(self!.price)! {
                             let content = UNMutableNotificationContent()
-                            content.title = "\(String(describing: coin!.assetId))"
-                            content.body = "\(String(describing: coin!.name)) is now at \(coin!.targetPrice)"
+                            content.title = "\(String(describing: coin!.assetId!))"
+                            content.body = "\(String(describing: coin!.name!)) is now at \(coin!.targetPrice)"
                             content.sound = UNNotificationSound.default
                             
                             let date = Date().addingTimeInterval(1)
@@ -131,12 +127,12 @@ class WebSocketService: ObservableObject {
                             let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
                             
                             cWNotification.add(request) { error in
-                                print("send")
+                                print("send notification")
                             }
                         } else if Double(self!.price)! < coin!.targetPrice && coin!.targetPrice < coinTempPrice! {
                             let content = UNMutableNotificationContent()
-                            content.title = "\(String(describing: coin!.assetId))"
-                            content.body = "\(String(describing: coin!.name)) is now at \(coin!.targetPrice)"
+                            content.title = "\(String(describing: coin!.assetId!))"
+                            content.body = "\(String(describing: coin!.name!)) is now at \(coin!.targetPrice)"
                             content.sound = UNNotificationSound.default
                             
                             let date = Date().addingTimeInterval(1)
@@ -146,7 +142,7 @@ class WebSocketService: ObservableObject {
                             let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
         
                             cWNotification.add(request) { error in
-                                print("send")
+                                print("send notification")
                             }
                         }
                         

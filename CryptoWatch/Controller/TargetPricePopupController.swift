@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TargetPricePopupController: UIViewController {
+class TargetPricePopupController: UIViewController, CryptoPriceDelegate {
     
     var coin: MyCoin!
         
@@ -80,7 +80,7 @@ class TargetPricePopupController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-       
+        WebSocketService.shared.cryptoPriceDelegate = self
     }
     
     fileprivate func setupBackground() {
@@ -206,5 +206,9 @@ class TargetPricePopupController: UIViewController {
     private func showSavedCoinAlert() {
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
+    }
+    
+    func reloadTable() {
+        coinCurrentPriceLabel.text = "$\(coin.currentPrice)/\(String(describing: coin.assetId!))"
     }
 }

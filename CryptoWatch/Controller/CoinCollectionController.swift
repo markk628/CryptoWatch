@@ -53,7 +53,7 @@ class CoinCollectionController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        getCoins()
+//        getCoins()
     }
     
     //MARK: Methods
@@ -130,6 +130,7 @@ class CoinCollectionController: UIViewController {
     private func saveCoinToWatchList(for indexPath: IndexPath) {
         let coin = coins[indexPath.row]
         let newCoin = MyCoin(context: CoreDataStack.shared.mainContext)
+        
         newCoin.assetId = coin.asset_id
         newCoin.name = coin.name
         for icon in icons {
@@ -139,6 +140,8 @@ class CoinCollectionController: UIViewController {
         }
         newCoin.currentPrice = coin.price_usd!
         CoreDataStack.shared.saveContext()
+        WebSocketService.shared.connect()
+        WebSocketService.shared.coins = [newCoin]
         showSavedCoinAlert()
         print("saved")
     }

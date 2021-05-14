@@ -19,6 +19,8 @@ class CoinTableViewCell: UITableViewCell {
         return stackView
     }()
     
+    lazy var coinView = UIView()
+    
     lazy var coinIconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .clear
@@ -73,16 +75,14 @@ class CoinTableViewCell: UITableViewCell {
             $0.bottom.equalToSuperview().offset(-5)
         }
         
-        [coinIconImageView, coinNameLabel, coinCurrentPriceLabel].forEach {
+        [coinView, coinNameLabel, coinCurrentPriceLabel].forEach {
             mainStackView.addArrangedSubview($0)
-            $0.snp.makeConstraints {
-                $0.top.equalToSuperview().offset(10)
-                $0.bottom.equalToSuperview().offset(-10)
-            }
         }
-    
+        
+        coinView.addSubview(coinIconImageView)
         coinIconImageView.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(10)
+            $0.top.left.equalToSuperview().offset(10)
+            $0.bottom.right.equalToSuperview().offset(-10)
         }
         
         coinNameLabel.snp.makeConstraints {

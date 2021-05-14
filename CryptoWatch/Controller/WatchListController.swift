@@ -43,12 +43,6 @@ class WatchListController: UIViewController, CryptoPriceDelegate {
         return table
     }()
     
-    private lazy var refreshControl: UIRefreshControl = {
-        let refresh = UIRefreshControl()
-        refresh.addTarget(self, action: #selector(refreshCoinTable), for: .valueChanged)
-        return refresh
-    }()
-    
     //MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,8 +68,6 @@ class WatchListController: UIViewController, CryptoPriceDelegate {
     private func fetchResults() {
         do {
             try fetchedResultsController.performFetch()
-            self.refreshControl.endRefreshing()
-            
         } catch {
             fatalError("Error fetching coins from Core Data \(error)")
         }
@@ -97,17 +89,10 @@ class WatchListController: UIViewController, CryptoPriceDelegate {
             }
         }
         cell.coinNameLabel.text = coin.name ?? coin.assetId
-        cell.coinCurrentPriceLabel.text = String(coin.currentPrice)
+        cell.coinCurrentPriceLabel.text = "$\(coin.currentPrice)"
     }
     
-    @objc func refreshCoinTable() {
-        fetchResults()
-    }
-    
-    func reloadTable() {
-//        coinTableView.reloadData()
-//        print("\(WebSocketService.shared.priceResult)")
-    }
+    func reloadTable() { print("\(WebSocketService.shared.price)")}
 }
 
 //MARK: Extensions
@@ -146,6 +131,8 @@ extension WatchListController: NSFetchedResultsControllerDelegate {
             coinTableView.insertRows(at: [newIndexPath!], with: .automatic)
         case .delete:
             coinTableView.deleteRows(at: [indexPath!], with: .automatic)
+//            WebSocketService.shared.connect()
+//            WebSocketService.shared.coins = fetchedResultsController.fetchedObjects ?? []
         case .update:
             let cell = coinTableView.cellForRow(at: indexPath!) as! CoinTableViewCell
             configureCell(cell: cell, for: indexPath!)
@@ -166,10 +153,6 @@ extension WatchListController: NSFetchedResultsControllerDelegate {
 extension WatchListController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let coin = fetchedResultsController.object(at: indexPath)
-        // modal/popup/whatever
-//        let vc = CoinController()
-//        vc.coin = coin
-//        self.present(vc, animated: true, completion: nil)
         let popup = TargetPricePopupController()
         popup.coin = coin
         self.addChild(popup)

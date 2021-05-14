@@ -26,13 +26,6 @@ class TargetPricePopupController: UIViewController {
         return imageView
     }()
     
-    lazy var coinIDLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.text = coin.assetId
-        return label
-    }()
-    
     lazy var coinNameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -43,6 +36,7 @@ class TargetPricePopupController: UIViewController {
     lazy var coinCurrentPriceLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
+        label.text = "$\(coin.currentPrice)/\(String(describing: coin.assetId!))"
         return label
     }()
     
@@ -86,7 +80,6 @@ class TargetPricePopupController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        getCoin()
        
     }
     
@@ -123,19 +116,19 @@ class TargetPricePopupController: UIViewController {
             }
         }
         
-        popupView.addSubview(coinIDLabel)
-        coinIDLabel.snp.makeConstraints {
-            $0.width.equalTo(coinIconImageView)
-            $0.height.equalTo(30)
-            $0.top.equalTo(coinIconImageView.snp.bottom).offset(15)
-            $0.centerX.equalToSuperview()
-        }
-        
+//        popupView.addSubview(coinIDLabel)
+//        coinIDLabel.snp.makeConstraints {
+//            $0.width.equalTo(coinIconImageView)
+//            $0.height.equalTo(30)
+//            $0.top.equalTo(coinIconImageView.snp.bottom).offset(15)
+//            $0.centerX.equalToSuperview()
+//        }
+//
         popupView.addSubview(coinNameLabel)
         coinNameLabel.snp.makeConstraints {
             $0.width.equalTo(coinIconImageView)
             $0.height.equalTo(30)
-            $0.top.equalTo(coinIDLabel.snp.bottom).offset(15)
+            $0.top.equalTo(coinIconImageView.snp.bottom).offset(15)
             $0.centerX.equalToSuperview()
         }
         
@@ -143,7 +136,7 @@ class TargetPricePopupController: UIViewController {
         coinCurrentPriceLabel.snp.makeConstraints {
             $0.width.equalToSuperview().multipliedBy(0.8)
             $0.height.equalTo(30)
-            $0.top.equalTo(coinNameLabel.snp.bottom)
+            $0.top.equalTo(coinNameLabel.snp.bottom).offset(15)
             $0.centerX.equalToSuperview()
         }
         
@@ -208,19 +201,6 @@ class TargetPricePopupController: UIViewController {
     
     @objc private func dismissKeyboard() {
         view.endEditing(true)
-    }
-    
-    private func getCoin() {
-        NetworkManager.shared.getCoin(coin: coin.assetId!) { (result) in
-            switch result {
-            case let .success(pulledCoin):
-                if let coinId = self.coin.assetId {
-                    self.coinCurrentPriceLabel.text = "$\(round(1000 * (pulledCoin.first?.price_usd!)!) / 1000)/\(String(describing: coinId))"
-                }
-            case let .failure(error):
-                print(error)
-            }
-        }
     }
     
     private func showSavedCoinAlert() {

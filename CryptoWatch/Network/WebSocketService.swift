@@ -32,12 +32,6 @@ class WebSocketService: ObservableObject {
         }
     }
     
-//    var coins: [MyCoin]! {
-//        didSet {
-//            connect()
-//        }
-//    }
-    
     var coins: [MyCoin]!
     
     weak var cryptoPriceDelegate: CryptoPriceDelegate?
@@ -130,7 +124,7 @@ class WebSocketService: ObservableObject {
                         let coin = self!.coins.filter { (symbol?.contains($0.assetId!))! }
                             .first
                         let coinTempPrice = coin?.currentPrice
-                        coin?.currentPrice = Double(self!.priceResult) ?? coinTempPrice!
+                        coin?.currentPrice = Double(self!.price) ?? coinTempPrice!
                         CoreDataStack.shared.saveContext()
                         self?.cryptoPriceDelegate?.reloadTable()
                         

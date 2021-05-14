@@ -92,7 +92,7 @@ class WatchListController: UIViewController, CryptoPriceDelegate {
         cell.coinCurrentPriceLabel.text = "$\(coin.currentPrice)"
     }
     
-    func reloadTable() { print("\(WebSocketService.shared.price)")}
+    func reloadTable() { print("\(WebSocketService.shared.price)") }
 }
 
 //MARK: Extensions

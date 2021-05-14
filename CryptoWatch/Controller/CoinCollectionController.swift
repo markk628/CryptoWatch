@@ -53,7 +53,7 @@ class CoinCollectionController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-//        getCoins()
+        getCoins()
     }
     
     //MARK: Methods

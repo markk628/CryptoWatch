@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import UserNotifications
 
 protocol CryptoPriceDelegate: class {
     func reloadTable()
@@ -102,14 +103,6 @@ class WebSocketService: ObservableObject {
             case .failure(let error):
                 print("Error in receiving message: \(error)")
             case .success(.string(let str)):
-                //                do{
-                //                    let response = try JSONSerialization.jsonObject(with: Data(str.utf8), options: []) as? [String:Any]
-                //                    print(response)
-                //                }catch{
-                //                    return
-                //                }
-                
-                
                 do {
                     let decoder = JSONDecoder()
                     let result = try decoder.decode(APIResponse.self, from: Data(str.utf8))
@@ -119,13 +112,44 @@ class WebSocketService: ObservableObject {
                         // filter through coredata coins and find the coin.assetid that matches result.data s value and update current price with result.data p
                         
                         let symbol = result.data[0].s.components(separatedBy: ":").last
-//                        print(symbol)
-                        
                         let coin = self!.coins.filter { (symbol?.contains($0.assetId!))! }
                             .first
                         let coinTempPrice = coin?.currentPrice
                         coin?.currentPrice = Double(self!.price) ?? coinTempPrice!
                         CoreDataStack.shared.saveContext()
+                        
+                        if coinTempPrice! < coin!.targetPrice && coin!.targetPrice < Double(self!.price)! {
+                            let content = UNMutableNotificationContent()
+                            content.title = "\(String(describing: coin!.assetId))"
+                            content.body = "\(String(describing: coin!.name)) is now at \(coin!.targetPrice)"
+                            content.sound = UNNotificationSound.default
+                            
+                            let date = Date().addingTimeInterval(1)
+                            let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+                            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+                            let uuidString = UUID().uuidString
+                            let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
+                            
+                            cWNotification.add(request) { error in
+                                print("send")
+                            }
+                        } else if Double(self!.price)! < coin!.targetPrice && coin!.targetPrice < coinTempPrice! {
+                            let content = UNMutableNotificationContent()
+                            content.title = "\(String(describing: coin!.assetId))"
+                            content.body = "\(String(describing: coin!.name)) is now at \(coin!.targetPrice)"
+                            content.sound = UNNotificationSound.default
+                            
+                            let date = Date().addingTimeInterval(1)
+                            let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+                            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+                            let uuidString = UUID().uuidString
+                            let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
+        
+                            cWNotification.add(request) { error in
+                                print("send")
+                            }
+                        }
+                        
                         self?.cryptoPriceDelegate?.reloadTable()
                         
                         

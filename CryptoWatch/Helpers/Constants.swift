@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UserNotifications
 
 struct Constants {
     static let coinCollectionViewCellIdentifier: String = "CoinCollectionViewCell"
@@ -17,3 +18,6 @@ struct Constants {
     
     static let baseWebSocketURL: String = "wss://ws.finnhub.io"
 }
+
+public let cWNotification = UNUserNotificationCenter.current()
+

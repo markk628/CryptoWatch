@@ -12,6 +12,13 @@ class OnboardingController: UIViewController {
     
     //MARK: Properties
     var coordinator: AppCoordinator!
+//    let center: UNUserNotificationCenter = {
+//        let center = UNUserNotificationCenter.current()
+//        center.requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
+//            // do something do nothing idc
+//        }
+//        return center
+//    }()
     
     //MARK: Views
     private let logoImageView: UIImageView = {
@@ -34,6 +41,10 @@ class OnboardingController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        
+        cWNotification.requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
+            // do something do nothing idc
+        }
     }
     
     //MARK: Methods

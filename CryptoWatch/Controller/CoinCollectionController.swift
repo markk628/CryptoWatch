@@ -26,6 +26,9 @@ class CoinCollectionController: UIViewController {
     private var filteredCoins: [Coin]!
     
     //MARK: Views
+    
+    let loadingView = OnboardingController()
+    
     private lazy var coinSearchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.placeholder = "Search coins"
@@ -52,11 +55,18 @@ class CoinCollectionController: UIViewController {
     //MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViews()
+        setupLoadingView()
         getCoins()
     }
     
     //MARK: Methods
+    private func setupLoadingView() {
+        self.addChild(loadingView)
+        loadingView.view.frame = self.view.frame
+        self.view.addSubview(loadingView.view)
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
     private func setupViews() {
         self.title = "Coins"
         self.view.backgroundColor = .cwBlack
@@ -76,7 +86,18 @@ class CoinCollectionController: UIViewController {
                     .filter { $0.price_usd != nil}
                 //                self.coins.sort { $0.price_usd ?? 0 > $1.price_usd ?? 0 }
                 DispatchQueue.main.async {
-                    self.coinCollectionView.reloadData()
+                    UIView.animate(withDuration: 0.25, animations: {
+                        self.loadingView.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+                        self.loadingView.view.alpha = 0.0
+                    }, completion: { (finished: Bool) in
+                        if finished {
+                            self.loadingView.view.removeFromSuperview()
+                            self.tabBarController?.tabBar.isHidden = false
+                            self.coinCollectionView.reloadData()
+                            self.setupViews()
+                        }
+                    })
+                    
                 }
                 self.refreshControl.endRefreshing()
             case let .failure(error):
@@ -100,7 +121,7 @@ class CoinCollectionController: UIViewController {
                                 if icon.asset_id == coin.asset_id {
                                     let imageUrl = URL(string: icon.url)
                                     cell.coinIconImageView.kf.setImage(with: imageUrl, placeholder: nil, options: nil) { (receivedSize, totalSize) in
-                                        
+
                                     } completionHandler: { (result) in
                                         do {
                                             let _ = try result.get()
@@ -110,8 +131,6 @@ class CoinCollectionController: UIViewController {
                                             }
                                         }
                                     }
-                                    
-                                    
                                 }
                             }
                         }

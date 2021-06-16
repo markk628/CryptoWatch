@@ -2,7 +2,7 @@
 //  MyCoin+CoreDataProperties.swift
 //  
 //
-//  Created by Mark Kim on 5/7/21.
+//  Created by Mark Kim on 6/15/21.
 //
 //
 
@@ -17,9 +17,9 @@ extension MyCoin {
     }
 
     @NSManaged public var assetId: String?
+    @NSManaged public var currentPrice: Double
     @NSManaged public var icon: String?
     @NSManaged public var name: String?
     @NSManaged public var targetPrice: Double
-    @NSManaged public var currentPrice: Double
 
 }

@@ -77,7 +77,7 @@ class WatchListController: UIViewController, CryptoPriceDelegate {
         guard let cell = cell as? CoinTableViewCell else { return }
         let coin = fetchedResultsController.object(at: indexPath)
         
-        cell.coinIconImageView.kf.setImage(with: URL(string: coin.icon ?? "https://chronicle.brightspotcdn.com/dims4/default/3bb9fc2/2147483647/strip/true/crop/625x401+0+0/resize/1680x1078!/format/webp/quality/90/?url=http%3A%2F%2Fchronicle-brightspot.s3.amazonaws.com%2F89%2F74%2F4b46fe3effe1e4f0fa4ce534f383%2Fnothing-to-see-15a34a2fc727c8.jpg"), placeholder: nil, options: nil) { (receivedSize, totalSize) in
+        cell.coinIconImageView.kf.setImage(with: URL(string: coin.icon ?? Constants.imageForCoinWithNoImage), placeholder: nil, options: nil) { (receivedSize, totalSize) in
             
         } completionHandler: { (result) in
             do {

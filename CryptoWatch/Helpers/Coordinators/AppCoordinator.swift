@@ -28,12 +28,6 @@ class AppCoordinator: Coordinator {
     
     //Methods
     func start() {
-        let vc = OnboardingController()
-        vc.coordinator = self
-        navigationController.pushViewController(vc, animated: false)
-    }
-    
-    func goToCoinCollectionController() {
         let tabBarCoordinator = TabBarCoordinator(navigationController: navigationController)
         tabBarCoordinator.start()
     }
